@@ -1,7 +1,7 @@
 import java.util.*;
 import java.time.*;
 
-public class Table<T> {
+public class Table<T extends Number> {
 	//TODO: IMPLEMENT TABLE THAT STORES ENTRIES
 	private List<Entry<T>> table;
 
@@ -14,15 +14,29 @@ public class Table<T> {
 	//method to sort the table based on times of the entries.
 	public void timeSort() {Collections.sort(table);}
 
-	//stat methods.
 	public T mean() {
 		//TODO: T HAS TO BE SUPER OR WHATEVER OF NUMBERS. FUCK
-		// PICK UP HERE
+		//OKAY YOU DID THAT BUT GONNA LEAVE TODO HERE FOR CLARITY
+		Double sum = 0.0;
+		for (Entry<T> entry: table) {
+			sum += entry.getData().doubleValue();
+		}
+		sum = sum/((double)table.size());
+		return (T) sum;
 	}
 
+	//TODO: THIS ONE NEEDS TO HAVE THE LIST SORTED BY DATA NOT TIME, GET TO THAT.
+	public T median() {
+		int mid = (table.size()/2)+1;
+		return (T)(table.get(mid).getData());
+	}
 
-
-
+	public T sse() {
+		T x_bar = mean();
+		Double sum = 0.0;
+		for (Entry<T> entry: table) {sum = sum + Math.pow(((entry.getData().doubleValue())-(x_bar.doubleValue())) , 2);}
+		return (T) sum;
+	}
 
 
 
@@ -69,6 +83,12 @@ public class Table<T> {
 		System.out.println(t.table.get(2).getData());
 		//wow neato
 
+		System.out.println(t.mean());
+		//holy shit it does means
+
+		System.out.println(t.median());
+
+		System.out.println(t.sse());
 
 	}
 }

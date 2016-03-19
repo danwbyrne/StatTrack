@@ -1,7 +1,7 @@
 import java.util.*;
 import java.time.*;
 
-public class Entry<T> implements Comparable<Entry<T>> {
+public class Entry<T extends Number> implements Comparable<Entry<T>> {
 	private T data;
 	private Instant time;
 
