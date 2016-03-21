@@ -5,14 +5,22 @@ public class Table<T extends Number> {
 	//TODO: IMPLEMENT TABLE THAT STORES ENTRIES
 	private List<Entry<T>> table;
 
-	public Table() {}
+	public Table() {table = new ArrayList();}
 	//constructor for list input.
 	public Table(List<Entry<T>> entries) {table = entries;}
 
 	public void add(Entry<T> e) {table.add(e);}
+	public void newEntry(T d, Calendar c) {
+		Entry<T> e = new Entry<T>(d,c);
+		table.add(e);
+	}
+	public int size() {return table.size();}
 
 	//method to sort the table based on times of the entries.
 	public void timeSort() {Collections.sort(table);}
+
+
+
 
 	public T mean() {
 		//TODO: T HAS TO BE SUPER OR WHATEVER OF NUMBERS. FUCK
@@ -48,10 +56,14 @@ public class Table<T extends Number> {
 		return (T) dev;
 	}
 
-
-
-
-
+	//returns a filtered table based on a Calendar field comparator.
+	public Table<T> timeFilter(Calendar t, int comp) {
+		Table<T> filtered = new Table<T>();
+		for (Entry<T> entry: table) {
+			if (entry.compareTime(t, comp)) {filtered.add(entry);}
+		}
+		return filtered;
+	}
 
 
 
@@ -60,49 +72,16 @@ public class Table<T extends Number> {
 
 
 	public static void main(String[] args) {
-
-		//makes some time inputs.
-		Instant t1 = Instant.now();
-		for (int i=0; i<1000; i++) {}
-		Instant t2 = Instant.now();
-		for (int i=0; i<1000; i++) {}
-		Instant t3 = Instant.now();
-
-		//makes some entries.
-		Entry<Integer> e1 = new Entry<Integer>(12, t1);
-		Entry<Integer> e2 = new Entry<Integer>(4, t2);
-		Entry<Integer> e3 = new Entry<Integer>(2, t3);
-
-
-		//unsorted list
-		List<Entry<Integer>> t_list = new ArrayList<Entry<Integer>>();
-		t_list.add(e2);
-		t_list.add(e3);
-		t_list.add(e1);
-
-		Table<Integer> t = new Table<Integer>(t_list);
-
-		//list gets sorted by time here.
-		t.timeSort();
-
-		System.out.println("The List: ");
-		System.out.println(t.table.get(0).getData());
-		System.out.println(t.table.get(1).getData());
-		System.out.println(t.table.get(2).getData());
-		System.out.println("");
-		//wow neato
-		System.out.println("Mean: ");
-		System.out.println(t.mean());
-		//holy shit it does means
-
-		System.out.println("Median: ");
-		System.out.println(t.median());
-
-		System.out.println("Sum of Squares: ");
-		System.out.println(t.sse());
-
-		System.out.println("Standard deviation: ");
-		System.out.println(t.stdDev());
+		Table<Integer> t = new Table<Integer>();
+		for (int i=0; i<1000; i++) {
+			Calendar c = Calendar.getInstance();
+			c.add(Calendar.MONTH, i);
+			t.newEntry(1, c);
+		}
+		Calendar c = Calendar.getInstance();
+		Table<Integer> t_f = t.timeFilter(c, Calendar.MONTH);
+		System.out.println(t.size());
+		System.out.println(t_f.size());
 
 
 
